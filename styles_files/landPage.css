@@ -1,27 +1,47 @@
 body {
-    margin: o;
+    margin: 0; /* Corrected typo from 'o' to '0' */
     border: 0;
     color: white;
-    font-family: Arial, Helvetica;
-    background-image: url(../images/anime4.jpg);
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2)),
+        url(../images/anime5.webp);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
-    box-sizing:border-box
+    box-sizing: border-box;
 }
 
 .logo{
     font-size: 2em;
     letter-spacing: 2px;
-    padding: 50px;
-   
-    
+    padding: 50px;  
 }
+
+.sign-in a{
+    text-decoration: none;
+    color: white;
+    padding: 10px 20px;
+    /* margin-right: 20px; */
+    font-size: 20px;
+    background: red;
+    border-radius: 8px;
+} 
+
+.sign-up a{
+    text-decoration: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 20px;
+    background: red;
+    border-radius: 8px;
+} 
+
 
 .menu a{
     text-decoration: none;
     color: white;
+    /* margin-left: 40px; */
     padding: 10px 40px;
     font-size: 20px;
 }
