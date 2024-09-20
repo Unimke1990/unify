@@ -26,6 +26,22 @@ body {
     color: white;
     padding: 10px 40px;
     font-size: 20px;
+    position: relative;
+}
+
+.menu a:before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    border-bottom: 2px solid indianred;
+    transition: 0.4s linear;
+}
+
+.menu a:hover:before{
+    width: 90%;
 }
 
 .sign-in a, .sign-up a{
@@ -54,12 +70,26 @@ nav{
 .sec{
     max-width: 650px;
     position: absolute;
-    top: 31%;
+    top: 28%;
     left: 50%;
     transform: translate(-50%,-50%);
     text-align: center;
     
 }
+
+.firstP{
+    font-size: 2em;
+}
+
+.secondP a{
+    text-decoration: none;
+    background: red;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    letter-spacing: 3px;
+}
+
 /* .firstP{
     font-weight: bolder;
     font-size: 30px;
@@ -83,3 +113,32 @@ nav{
     border-radius: 8px;
 }  */
 
+/* Add hover effects */
+/* .menu a:hover,
+.sign-in a:hover,
+.sign-up a:hover,
+.secondP a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive layout for smaller screens */
+/* @media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        height: auto;
+    }
+    .menu a {
+        padding: 10px 20px;
+    }
+    .sign-in a,
+    .sign-up a {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
+    .firstP {
+        font-size: 24px;
+    }
+    .secondP {
+        font-size: 18px;
+    }
+} */ 
