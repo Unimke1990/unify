@@ -54,6 +54,11 @@ body {
     border-radius: 8px;
 } 
 
+.sign-in a:hover, .sign-up a:hover{
+    background: transparent;
+    border: 1px solid red;   
+    transition: 0.4s; 
+}
 
 nav{
     width: 100%;
@@ -88,6 +93,13 @@ nav{
     padding: 10px 20px;
     border-radius: 8px;
     letter-spacing: 3px;
+}
+
+.secondP a:hover{
+    background: transparent;
+    /* border: 1px solid red;    */
+    background-color: rgba(241, 198, 8, 0.745);
+    transition: 0.4s;
 }
 
 /* .firstP{
