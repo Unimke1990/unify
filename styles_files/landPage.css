@@ -1,4 +1,9 @@
 body {
-    background-color: rgb(17, 31, 51);
-    color: white;
+   background-image: url(../images/anime.jpg);
+    /* color: white; */
+    font-family: Arial, Helvetica, sans-serif;
+    margin: o;
+    border: 0;
+  
+   
 }
