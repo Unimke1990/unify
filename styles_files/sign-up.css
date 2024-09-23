@@ -62,3 +62,8 @@ input{
     outline: 0;
     padding: 19px 15px;
 }
+
+.input-field i{
+    margin-left: 15px;
+    color: #999;
+}
