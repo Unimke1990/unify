@@ -7,33 +7,26 @@ from flask_login import LoginManager
 
 db = SQLAlchemy()
 
-
 def create_app():
     """
     initializes and configures the flask application
     """
     app = Flask(__name__, template_folder='templates')
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql:///./unifydb.db'
-    app.config['SECRETE_KEY'] = '1990_stylen9JA'
-
-    db.init_app(app)
-
-    #setting configurations
-    login_manager = LoginManager()
-    login_manager.init_app(app)
+    app.config['SECRET_KEY'] = '1990_stylen9JA'
 
     #load models
     from models import Users, Contacts, Reminders
 
+    #setting configurations
+    db.init_app(app)
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+
+
     @login_manager.user_loader
     def load_users(uid):
-        return User.query.get(uid)
-    
-    def load_contacts(uid):
-        return Contacts.query.get(uid)
-    
-    def load_reminders(uid):
-        return Reminders.query.get(uid)
+        return Users.query.get(uid)
 
     #create an instance of bcrypt
     bcrypt = Bcrypt(app)
@@ -43,6 +36,5 @@ def create_app():
     register_routes(app, db, bcrypt)
 
     migrate = Migrate(app, db)
-
 
     return app
