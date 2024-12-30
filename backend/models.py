@@ -26,7 +26,9 @@ class Users(db.Model, UserMixin):
 
     #compare provided password with stored hashed password
     def check_password(self, password):
-        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+        hashed_password = self.password.encode('utf-8')
+        return bcrypt.checkpw(password.encode('utf-8'), hashed_password)
+        # return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
     
     #user representation
     def __repr__(self):
