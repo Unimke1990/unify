@@ -16,7 +16,7 @@ def create_app():
     app.config['SECRET_KEY'] = '1990_stylen9JA'
 
     #load models
-    from models import Users, Contacts, Reminders
+    from models import Users, Contacts, Reminder
 
     #setting configurations
     db.init_app(app)
@@ -32,8 +32,8 @@ def create_app():
     bcrypt = Bcrypt(app)
 
     #load routes
-    from routes import register_routes
-    register_routes(app, db, bcrypt)
+    # from routes import register_routes
+    # register_routes(app, db, bcrypt)
 
     migrate = Migrate(app, db)
 
