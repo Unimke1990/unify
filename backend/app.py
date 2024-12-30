@@ -12,7 +12,7 @@ def create_app():
     initializes and configures the flask application
     """
     app = Flask(__name__, template_folder='templates')
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql:///./unifydb.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://agim:1990@localhost/unifydb'
     app.config['SECRET_KEY'] = '1990_stylen9JA'
 
     #load models
