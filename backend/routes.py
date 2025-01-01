@@ -2,6 +2,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from flask import request, render_template, url_for, redirect, flash
 from models import Users, Contacts, Reminder
 from sqlalchemy.exc import IntegrityError
+from flask_bcrypt import Bcrypt
 
 
 def register_routes(app, db, bcrypt):
@@ -26,7 +27,7 @@ def register_routes(app, db, bcrypt):
                 return redirect(url_for('signup'))
             
             #create a new user instance
-            user = Users(name, username, password, email)
+            user = Users(name=name, username=username, password=password, email=email)
 
             try:
                 db.session.add(user)
@@ -38,7 +39,7 @@ def register_routes(app, db, bcrypt):
                 flash('Username or email already exists')
                 return redirect(url_for('signup'))
 
-        
+    
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():
@@ -51,12 +52,12 @@ def register_routes(app, db, bcrypt):
             user = Users.query.filter_by(username=username).first()
             if user and user.check_password(password):
                 login_user(user)
-                return render_template('index.html')
-                # return redirect(url_for('index'))
+                return redirect(url_for('index'))
             else:
                 flash('Invalid username or password')
                 return redirect(url_for('login'))
             
+    
 
     @app.route('/logout')
     def logout():

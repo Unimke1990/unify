@@ -17,18 +17,16 @@ class Users(db.Model, UserMixin):
     def __init__(self, name, username, password, email):
         self.name = name
         self.username = username
-        self.password = self._hash_password(password).decode('utf-8')
+        self.password = self._hash_password(password)
         self.email = email
 
     #hash entered password
     def _hash_password(self, password):
-        return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     #compare provided password with stored hashed password
     def check_password(self, password):
-        hashed_password = self.password.encode('utf-8')
-        return bcrypt.checkpw(password.encode('utf-8'), hashed_password)
-        # return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
     
     #user representation
     def __repr__(self):
