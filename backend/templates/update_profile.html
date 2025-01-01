@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Update profile{% endblock %}
+
+{% block content %}
+
+<h1>Update profile</h1>
+
+{% with messages = get_flashed_messages %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li style="color: red;">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endwith %}
+
+
+<form action="{{ url_for('update_profile') }}" method="POST">
+    <!-- <input type="password" name="current_password" placeholder="Current Password" required="required"><br> -->
+    <input type="text" name="name" value="{{ current_user.name}}" placeholder="Name"><br>
+    <input type="text" name="username" value="{{ current_user.username }}" placeholder="Username"><br>
+    <input type="text" name="email" value="{{ current_user.email }}" placeholder="Email"><br>
+    <input type="password" name="password" placeholder="New Password (optional)">
+    <input type="submit" value="Update Profile">
+</form>
+
+<a href="{{ url_for('index') }}">Back to Home</a>
+{% endblock %}

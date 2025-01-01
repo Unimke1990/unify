@@ -103,9 +103,63 @@ def register_routes(app, db, bcrypt):
             else:
                 flash('Invalid username or password')
                 return redirect(url_for('login'))
-            
-    
 
+
+    @app.route('/update_profile', methods=['GET', 'POST'])
+    @login_required
+    def update_profile():
+        if request.method == 'GET':
+            return render_template('update_profile.html')
+        elif request.method == 'POST':
+            name = request.form.get('name').strip()
+            username = request.form.get('username').strip()
+            password = request.form.get('password').strip()
+            email = request.form.get('email').strip()
+
+            if not name or not username or not password or not email:
+                flash('Name, username, and email required')
+                return redirect(url_for('update_profile'))
+            
+            #validate inputs
+            #validate name
+            name_regex = r'^[a-zA-Z]{2,}$'
+            if not re.match(name_regex, name):
+                flash('Invalid name format')
+                return redirect(url_for('signup'))
+            
+            #validate email format
+            email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+            if not re.match(email_regex, email):
+                flash('Invalid email format')
+                return redirect(url_for('signup'))
+            
+            #validate username format
+            username_regex = r'^[a-zA-Z0-9](?:[a-zA-Z0-9_]{2,14}[a-zA-Z0-9])?$'
+            if not re.match(username_regex, username):
+                flash('Invalid username format')
+                return redirect(url_for('signup'))
+            
+            #validate password format
+            if password and len(password) < 6:
+                flash('password must be atleast 6 characters long')
+                return redirect(url_for('update_profile'))
+            
+            #update users details in database
+            try:
+               current_user.name = name
+               current_user.username = username
+               current_user.email = email
+               if password:
+                   current_user.password = bcrypt.generate_password_hash(password).decode('utf-8')
+               db.session.commit()
+               flash('Profile updated successfully.')
+               return redirect(url_for('index'))
+            except Exception as e:
+                flash(f'Error: {str(e)}')
+                return redirect(url_for('update_profile'))
+               
+               
+        
     @app.route('/logout')
     def logout():
         logout_user()
