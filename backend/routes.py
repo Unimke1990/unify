@@ -125,19 +125,19 @@ def register_routes(app, db, bcrypt):
             name_regex = r'^[a-zA-Z]{2,}$'
             if not re.match(name_regex, name):
                 flash('Invalid name format')
-                return redirect(url_for('signup'))
+                return redirect(url_for('update_profile'))
             
             #validate email format
             email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
             if not re.match(email_regex, email):
                 flash('Invalid email format')
-                return redirect(url_for('signup'))
+                return redirect(url_for('update_profile'))
             
             #validate username format
             username_regex = r'^[a-zA-Z0-9](?:[a-zA-Z0-9_]{2,14}[a-zA-Z0-9])?$'
             if not re.match(username_regex, username):
                 flash('Invalid username format')
-                return redirect(url_for('signup'))
+                return redirect(url_for('update_profile'))
             
             #validate password format
             if password and len(password) < 6:
