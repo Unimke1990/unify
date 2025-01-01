@@ -116,9 +116,9 @@ def register_routes(app, db, bcrypt):
             password = request.form.get('password').strip()
             email = request.form.get('email').strip()
 
-            if not name or not username or not password or not email:
-                flash('Name, username, and email required')
-                return redirect(url_for('update_profile'))
+            # if not name or not username or not password or not email:
+            #     flash('Name, username, and email required')
+            #     return redirect(url_for('update_profile'))
             
             #validate inputs
             #validate name
@@ -157,8 +157,22 @@ def register_routes(app, db, bcrypt):
             except Exception as e:
                 flash(f'Error: {str(e)}')
                 return redirect(url_for('update_profile'))
-               
-               
+
+
+    #delete functionality
+    @app.route('/delete_profile', methods=['POST'])
+    @login_required
+    def delete_profile():
+        try:
+            db.session.delete(current_user)
+            db.session.commit()
+            flash('Profile deleted successfully.')
+            login_user()
+            return redirect(url_for('signup'))
+        except Exception as e:
+            flash(f'Error: {str(e)}')
+            return redirect(url_for('update_profile'))
+                       
         
     @app.route('/logout')
     def logout():
