@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, url_for, request, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
@@ -27,6 +27,21 @@ def create_app():
     @login_manager.user_loader
     def load_users(uid):
         return Users.query.get(uid)
+    
+    #login required manager for update_profile, and delete_profile
+    @login_manager.unauthorized_handler
+    def unauthorized():
+        # Determine which route triggered the unauthorized request
+        if request.path == url_for('update_profile'):
+            flash('You must be logged in before you can update your profile')
+            return redirect(url_for('login'))
+        elif request.path == url_for('delete_profile'):
+            flash('You must be logged in before you can delete your profile')
+            return redirect(url_for('login'))
+        else:
+            flash('You must be logged in to access this page')
+            return redirect(url_for('login'))
+    
 
     #create an instance of bcrypt
     bcrypt = Bcrypt(app)

@@ -28,7 +28,7 @@ def register_routes(app, db, bcrypt):
                 return redirect(url_for('signup'))
             
             #validate name
-            name_regex = r'^[a-zA-Z]{2,}$'
+            name_regex = r'^[a-zA-Z]+(?: [a-zA-Z]+)*$'
             if not re.match(name_regex, name):
                 flash('Invalid name format')
                 return redirect(url_for('signup'))
@@ -115,14 +115,10 @@ def register_routes(app, db, bcrypt):
             username = request.form.get('username').strip()
             password = request.form.get('password').strip()
             email = request.form.get('email').strip()
-
-            # if not name or not username or not password or not email:
-            #     flash('Name, username, and email required')
-            #     return redirect(url_for('update_profile'))
             
             #validate inputs
             #validate name
-            name_regex = r'^[a-zA-Z]{2,}$'
+            name_regex = r'^[a-zA-Z]+(?: [a-zA-Z]+)*$'
             if not re.match(name_regex, name):
                 flash('Invalid name format')
                 return redirect(url_for('update_profile'))
@@ -153,21 +149,22 @@ def register_routes(app, db, bcrypt):
                    current_user.password = bcrypt.generate_password_hash(password).decode('utf-8')
                db.session.commit()
                flash('Profile updated successfully.')
-               return redirect(url_for('index'))
+               logout_user()
+               return redirect(url_for('login'))
             except Exception as e:
                 flash(f'Error: {str(e)}')
                 return redirect(url_for('update_profile'))
 
 
     #delete functionality
-    @app.route('/delete_profile', methods=['POST'])
+    @app.route('/delete_account', methods=['POST'])
     @login_required
-    def delete_profile():
+    def delete_account():
         try:
             db.session.delete(current_user)
             db.session.commit()
             flash('Profile deleted successfully.')
-            login_user()
+            logout_user()
             return redirect(url_for('signup'))
         except Exception as e:
             flash(f'Error: {str(e)}')
@@ -176,5 +173,8 @@ def register_routes(app, db, bcrypt):
         
     @app.route('/logout')
     def logout():
+        """
+        Logs out the current user and redirects to the index page.
+        """
         logout_user()
         return redirect(url_for('index'))

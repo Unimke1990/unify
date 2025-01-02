@@ -21,8 +21,11 @@
     <input type="text" name="name" value="{{ current_user.name}}" placeholder="Name"><br>
     <input type="text" name="username" value="{{ current_user.username }}" placeholder="Username"><br>
     <input type="text" name="email" value="{{ current_user.email }}" placeholder="Email"><br>
-    <input type="password" name="password" placeholder="New Password (optional)">
+    <input type="password" name="password" placeholder="New Password (optional)"><br>
     <input type="submit" value="Update Profile">
+</form>
+<form action="{{ url_for('delete_account') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete your account?');">
+    <button type="submit">Delete Account</button>
 </form>
 
 <a href="{{ url_for('index') }}">Back to Home</a>
