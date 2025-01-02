@@ -47,8 +47,10 @@ def create_app():
     bcrypt = Bcrypt(app)
 
     #load routes
-    from routes import register_routes
+    from backend.user_routes import register_routes
+    from backend.contacts_routes import contact_routes
     register_routes(app, db, bcrypt)
+    contact_routes(app, db, bcrypt)
 
     migrate = Migrate(app, db)
 
