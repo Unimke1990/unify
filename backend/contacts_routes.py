@@ -75,7 +75,7 @@ def contact_routes(app, db):
         """
         function that returns all contacts of current user
         """
-        contacts = current_user.contacts.all()
+        contacts = current_user.contacts
         return render_template('contacts.html', contacts=contacts)
 
 

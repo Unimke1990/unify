@@ -47,6 +47,14 @@ def create_app():
         elif request.path == url_for('contacts'):
             flash('You must be logged in before you can view your contacts')
             return redirect(url_for('login'))
+        
+        elif request.path == url_for('edit_contact'):
+            flash('You must be logged in before you can edit your contacts')
+            return redirect(url_for('login'))
+        
+        elif request.path == url_for('delete_contact'):
+            flash('You must be logged in before you can delete your contacts')
+            return redirect(url_for('login'))
 
         else:
             flash('You must be logged in to access this page')
