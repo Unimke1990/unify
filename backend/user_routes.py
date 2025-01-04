@@ -17,7 +17,7 @@ def register_routes(app, db, bcrypt):
         if request.method == 'GET':
             return render_template ('signup.html')
         elif request.method == 'POST':
-            name = request.form.get('name').strip()
+            name = request.form.get('name').strip().lower().lower()
             username = request.form.get('username').strip()
             password = request.form.get('password').strip()
             email = request.form.get('email').strip()

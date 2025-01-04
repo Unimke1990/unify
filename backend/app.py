@@ -38,6 +38,9 @@ def create_app():
         elif request.path == url_for('delete_profile'):
             flash('You must be logged in before you can delete your profile')
             return redirect(url_for('login'))
+        elif request.path == url_for('add_contact'):
+            flash('You must be logged in before you can add a contact')
+            return redirect(url_for('login'))
         else:
             flash('You must be logged in to access this page')
             return redirect(url_for('login'))
