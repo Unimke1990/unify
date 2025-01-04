@@ -25,7 +25,7 @@ Technology Stack
 
 Frontend: React
 
-Backend: Node.js with Express.js
+Backend: Flask
 
 Database: MySQL
 
