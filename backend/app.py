@@ -35,12 +35,19 @@ def create_app():
         if request.path == url_for('update_profile'):
             flash('You must be logged in before you can update your profile')
             return redirect(url_for('login'))
-        elif request.path == url_for('delete_profile'):
-            flash('You must be logged in before you can delete your profile')
+
+        elif request.path == url_for('delete_account'):
+            flash('You must be logged in before you can delete your account')
             return redirect(url_for('login'))
+
         elif request.path == url_for('add_contact'):
             flash('You must be logged in before you can add a contact')
             return redirect(url_for('login'))
+
+        elif request.path == url_for('contacts'):
+            flash('You must be logged in before you can view your contacts')
+            return redirect(url_for('login'))
+
         else:
             flash('You must be logged in to access this page')
             return redirect(url_for('login'))
@@ -50,10 +57,10 @@ def create_app():
     bcrypt = Bcrypt(app)
 
     #load routes
-    from backend.user_routes import register_routes
-    from backend.contacts_routes import contact_routes
+    from user_routes import register_routes
+    from contacts_routes import contact_routes
     register_routes(app, db, bcrypt)
-    contact_routes(app, db, bcrypt)
+    contact_routes(app, db)
 
     migrate = Migrate(app, db)
 
