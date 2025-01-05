@@ -36,6 +36,11 @@ class Users(db.Model, UserMixin):
     def get_id(self):
         return self.uid
 
+#Association table
+contact_groups = db.Table('contact_groups',
+    db.Column('contact_id', db.Integer, db.ForeignKey('contacts.id'), primary_key=True),
+    db.Column('group_id', db.Integer, db.ForeignKey('groups.id'), primary_key=True)
+)
 
 #groups table
 class Group(db.Model):
@@ -74,12 +79,6 @@ class Contacts(db.Model):
         self.email =email
         self.phone = phone
         self.user_id = user_id
-
-
-contact_groups = db.Table('contact_groups',
-    db.Column('contact_id', db.Integer, db.ForeignKey('contacts.id'), primary_key=True),
-    db.Column('group_id', db.Integer, db.ForeignKey('groups.id'), primary_key=True)
-)
 
 
 class Reminder(db.Model):
