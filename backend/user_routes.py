@@ -4,6 +4,7 @@ from models import Users, Contacts, Reminder
 from sqlalchemy.exc import IntegrityError
 from flask_bcrypt import Bcrypt
 import re
+from flask import session
 
 
 def register_routes(app, db, bcrypt):
@@ -99,6 +100,7 @@ def register_routes(app, db, bcrypt):
             
             if user and user.check_password(password):
                 login_user(user)
+                session.permanent = True
                 return redirect(url_for('index'))
             else:
                 flash('Invalid username or password')
@@ -177,4 +179,5 @@ def register_routes(app, db, bcrypt):
         Logs out the current user and redirects to the index page.
         """
         logout_user()
+        session.clear()
         return redirect(url_for('index'))

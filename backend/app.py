@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from datetime import timedelta
+from flask import session
 
 
 db = SQLAlchemy()
@@ -14,6 +16,11 @@ def create_app():
     app = Flask(__name__, template_folder='templates')
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://agim:1990@localhost/unifydb'
     app.config['SECRET_KEY'] = '1990_stylen9JA'
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+
+    @app.before_request
+    def refresh_session():
+        session.modified = True
 
     #load models
     from models import Users, Contacts, Reminder
@@ -26,7 +33,8 @@ def create_app():
 
     @login_manager.user_loader
     def load_users(uid):
-        return Users.query.get(uid)
+        user = Users.query.get(uid)
+        return user if user else None
     
     #login required manager for update_profile, and delete_profile
     @login_manager.unauthorized_handler
