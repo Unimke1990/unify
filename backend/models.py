@@ -37,6 +37,25 @@ class Users(db.Model, UserMixin):
         return self.uid
 
 
+#groups table
+class Group(db.Model):
+    """
+    The Group class represents the groups table.
+    """
+    __tablename__ = 'groups'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.uid'), nullable=False)
+    contacts = db.relationship('Contacts', secondary='contact_groups', backref=db.backref('groups', lazy=True))
+
+    def __init__(self, name, user_id):
+        """
+        Initialize a new Group instance.
+        """
+        self.name = name
+        self.user_id = user_id
+
+
 class Contacts(db.Model):
     """
     The Contacts class represents the contacts table.
@@ -55,6 +74,12 @@ class Contacts(db.Model):
         self.email =email
         self.phone = phone
         self.user_id = user_id
+
+
+contact_groups = db.Table('contact_groups',
+    db.Column('contact_id', db.Integer, db.ForeignKey('contacts.id'), primary_key=True),
+    db.Column('group_id', db.Integer, db.ForeignKey('groups.id'), primary_key=True)
+)
 
 
 class Reminder(db.Model):
