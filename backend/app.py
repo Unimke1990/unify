@@ -21,12 +21,13 @@ def create_app():
     @app.before_request
     def refresh_session():
         session.modified = True
-        if 'user_id' not in session and (request.endpoint is None or request.endpoint not in ['login', 'register']):
+        public_endpoints = ['index', 'login', 'signup']
+        if 'user_id' not in session and request.endpoint not in public_endpoints:
             flash('Your session has expired. Please log in again.')
             return redirect(url_for('login'))
 
     #load models
-    from models import Users, Contacts, Reminder
+    from models import Users, Contacts, Group, Reminder
 
     #setting configurations
     db.init_app(app)
