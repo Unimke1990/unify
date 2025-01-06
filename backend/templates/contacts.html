@@ -19,6 +19,7 @@
         <p>{{ contact.name }}</p><br>
         <p>{{ contact.phone }}</p><br>
         <p>{{ contact.email }}</p><br>
+        <p>{{ contact.group_name }}</p><br>
 
         <a href="{{ url_for('delete_contact', id=contact.id) }}"
         onclick="return confirm('Are you sure you want to delete this contact?')">Delete</a>

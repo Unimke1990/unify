@@ -1,6 +1,7 @@
 from app import db
 from flask_login import UserMixin
 import bcrypt
+from datetime import datetime
 
 class Users(db.Model, UserMixin):
     """
@@ -12,6 +13,7 @@ class Users(db.Model, UserMixin):
     username = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(250), unique=True)
+    groups = db.relationship('Group', backref='user', lazy=True)
 
     #initialize new users
     def __init__(self, name, username, password, email):
@@ -51,7 +53,10 @@ class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.uid'), nullable=False)
-    contacts = db.relationship('Contacts', secondary='contact_groups', backref=db.backref('groups', lazy=True))
+    contacts = db.relationship('Contacts', secondary=contact_groups, backref=db.backref('groups', lazy=True))
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
 
     def __init__(self, name, user_id):
         """
@@ -72,6 +77,9 @@ class Contacts(db.Model):
     phone = db.Column(db.String(20), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.uid'), nullable=False) 
     user = db.relationship('Users', backref=db.backref('contacts', lazy=True))
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    reminders = db.relationship('Reminder', backref='contact', lazy=True)
 
     #initialize new users
     def __init__(self, name, email, phone, user_id):
@@ -91,10 +99,12 @@ class Reminder(db.Model):
     description = db.Column(db.Text, nullable=False)
     due_date = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.uid'), nullable=False)
-    user = db.relationship('Users', backref=db.backref('reminders', lazy=True))
+    user = db.relationship('Users', backref=db.backref('reminders', lazy=True), foreign_keys=[user_id])
+    contact_id = db.Column(db.Integer, db.ForeignKey('contacts.id'), nullable=True)
 
-    def __init__(self, title, description, due_date, user_id):
+    def __init__(self, title, description, due_date, user_id, contact_id=None):
         self.title = title
         self.description = description
         self.due_date = due_date
         self.user_id = user_id
+        self.contact_id = contact_id

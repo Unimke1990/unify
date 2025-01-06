@@ -1,6 +1,6 @@
 from flask_login import login_user, logout_user, login_required, current_user
 from flask import request, render_template, url_for, redirect, flash
-from models import Users, Contacts, Reminder
+from models import Users, Group, Contacts, Reminder
 from sqlalchemy.exc import IntegrityError
 from flask_bcrypt import Bcrypt
 import re
@@ -20,14 +20,16 @@ def contact_routes(app, db):
         Handle the addition of new contacts via GET and POST requests.
         """
         if request.method == 'GET':
-            return render_template('add_contact.html')
+            groups = current_user.groups.all()
+            return render_template('add_contact.html', groups=groups)
         elif request.method == 'POST':
             name = request.form.get('name').strip().lower()
             email = request.form.get('email').strip().lower()
             phone = request.form.get('phone').strip()
+            group_name = request.form.get('group_name').strip().lower()
 
             # Validate input
-            if not name or not email or not phone:
+            if not name or not email or not phone or not group_name:
                 flash('All fields are required.')
                 return redirect(url_for('add_contact'))
 
@@ -55,8 +57,20 @@ def contact_routes(app, db):
                 flash('Email is already in use.')
                 return redirect(url_for('add_contact'))
             
+            #check if group exists, create if not
+            if group_name:
+                group = Group.query.filter_by(name=group_name, user_id=current_user.uid).first()
+                if not group:
+                    group = Group(name=group_name, user_id=current_user.uid)
+                    db.session.add(group)
+                    db.session.commit()
+            else:
+                group = None
+            
             # Create new contacts
             new_contact = Contacts(name=name, email=email, phone=phone, user_id=current_user.uid)
+            if group:
+                new_contact.groups.append(group)
 
             try:
                 db.session.add(new_contact)
@@ -90,11 +104,13 @@ def contact_routes(app, db):
             flash('Contact not found')
             return redirect(url_for('contacts'))
         if request.method == 'GET':
-            return render_template('edit_contact.html', contact=contact)
+            groups = current_user.groups.all()
+            return render_template('edit_contact.html', contact=contact, groups=groups)
         elif request.method == 'POST':
             name = request.form.get('name').strip().lower()
             email = request.form.get('email').strip().lower()
             phone = request.form.get('phone').strip()
+            new_group_name = request.form.get('new_group_name').strip().lower()
 
             # Validate input
             # if not name or not email or not phone:
@@ -124,6 +140,16 @@ def contact_routes(app, db):
             if existing_contact and existing_contact.email != contact.email:
                 flash('Email is already in use.')
                 return redirect(url_for('edit_contact', id=id))
+            
+             # Update contact's group assignment
+            if new_group_name:
+                new_group = Group.query.filter_by(name=new_group_name).first()
+                if not new_group:
+                    new_group = Group(name=new_group_name, user_id=current_user.uid)
+                    db.session.add(new_group)
+                    db.session.commit()
+                contact.groups.clear()
+                contact.groups.append(new_group)
             
             contact.name = name
             contact.email = email
