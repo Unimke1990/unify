@@ -112,11 +112,6 @@ def contact_routes(app, db):
             phone = request.form.get('phone').strip()
             new_group_name = request.form.get('new_group_name').strip().lower()
 
-            # Validate input
-            # if not name or not email or not phone:
-            #     flash('All fields are required.')
-            #     return redirect(url_for('edit_contact', id=id))
-
             # validate phone numbers
             number_pattern = r'^\+?[1-9]\d{1,14}$'
             if not re.match(number_pattern, phone):

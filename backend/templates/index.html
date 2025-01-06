@@ -6,23 +6,16 @@
     <p>Welcome to the backend!</p>
 
     {% if current_user.is_authenticated %}
-        <h3>
-           Hello {{ current_user.username}}, you are logged in to Unify.
-        </h3>
-
-    {% else %}
-        <h3>
-            Hello, guest!
-        </h3>
-    {% endif %}
-
-    <a href="{{ url_for('signup') }}">Signup</a>
-    <a href="{{ url_for('login') }}">Login</a>
-    <a href="{{ url_for('logout') }}">Logout</a>
-    <a href="{{ url_for('update_profile') }}">Update</a>
-    <a href="{{ url_for('add_contact') }}">Add contact</a>
-    <a href="{{ url_for('contacts') }}">Contacts</a>
+        <h3>Hello {{ current_user.username }}, you are logged in to Unify.</h3>
+        <a href="{{ url_for('update_profile') }}">Update Profile</a>
+        <a href="{{ url_for('add_contact') }}">Add Contact</a>
+        <a href="{{ url_for('contacts') }}">Contacts</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
         
-
+    {% else %}
+        <h3>Hello, guest!</h3>
+        <a href="{{ url_for('signup') }}">Signup</a>
+        <a href="{{ url_for('login') }}">Login</a>
+    {% endif %}
 
 {% endblock %}
