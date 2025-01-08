@@ -1,0 +1,156 @@
+
+/* Global Styles */
+body {
+    margin: 0; /* Corrected typo from 'o' to '0' */
+    border: 0;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2)),
+        url(../images/anime5.webp);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    box-sizing: border-box;
+}
+
+.logo{
+    font-size: 2em;
+    letter-spacing: 2px;
+    padding: 50px; 
+    margin-right: 35px; 
+}
+
+.menu a{
+    text-decoration: none;
+    color: white;
+    padding: 10px 40px;
+    font-size: 20px;
+    position: relative;
+}
+
+.menu a:before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    border-bottom: 2px solid indianred;
+    transition: 0.4s linear;
+}
+
+.menu a:hover:before{
+    width: 90%;
+}
+
+.sign-in a, .sign-up a{
+    text-decoration: none;
+    color: white;
+    padding: 10px 20px;
+    margin-right: 20px;
+    font-size: 20px;
+    background: red;
+    border-radius: 8px;
+} 
+
+.sign-in a:hover, .sign-up a:hover{
+    background: transparent;
+    border: 1px solid red;   
+    transition: 0.4s; 
+}
+
+nav{
+    width: 100%;
+    height: 100px;
+    /* background: white; */
+    color: white;
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    font-family: sans-serif;
+    padding: 0 40px;
+}
+
+.sec{
+    max-width: 650px;
+    position: absolute;
+    top: 28%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    
+}
+
+.firstP{
+    font-size: 2em;
+}
+
+.secondP a{
+    text-decoration: none;
+    background: red;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    letter-spacing: 3px;
+}
+
+.secondP a:hover{
+    background: transparent;
+    /* border: 1px solid red;    */
+    background-color: rgba(241, 198, 8, 0.745);
+    transition: 0.4s;
+}
+
+/* .firstP{
+    font-weight: bolder;
+    font-size: 30px;
+    text-align: center;
+    padding-top: 0;
+    padding-bottom: 10px;
+} */
+
+/* .secondP {
+    font-weight: bolder;
+    font-size: 20px;
+    text-align: center;
+    padding-bottom: 10px;
+} */
+/* 
+.secondP a {
+    text-decoration: none;
+    color: white;
+    background-color: red;
+    padding: 10px 20px;
+    border-radius: 8px;
+}  */
+
+/* Add hover effects */
+/* .menu a:hover,
+.sign-in a:hover,
+.sign-up a:hover,
+.secondP a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive layout for smaller screens */
+/* @media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        height: auto;
+    }
+    .menu a {
+        padding: 10px 20px;
+    }
+    .sign-in a,
+    .sign-up a {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
+    .firstP {
+        font-size: 24px;
+    }
+    .secondP {
+        font-size: 18px;
+    }
+} */ 

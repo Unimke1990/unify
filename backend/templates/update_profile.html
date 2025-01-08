@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Update profile{% endblock %}
+
+{% block content %}
+
+<h1 style="text-align: center; color: #4CAF50;">Update Profile</h1>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul style="list-style-type: none; padding: 0;">
+        {% for message in messages %}
+            <li style="color: rgb(15, 246, 42); text-align: center; margin-bottom: 10px;">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endwith %}
+
+<div style="max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <form action="{{ url_for('update_profile') }}" method="POST" style="display: flex; flex-direction: column;">
+        <input type="text" name="name" value="{{ current_user.name}}" placeholder="Name" style="margin-bottom: 10px; padding: 10px; border-radius: 5px; border: 1px solid #ccc;"><br>
+        <input type="text" name="username" value="{{ current_user.username }}" placeholder="Username" style="margin-bottom: 10px; padding: 10px; border-radius: 5px; border: 1px solid #ccc;"><br>
+        <input type="text" name="email" value="{{ current_user.email }}" placeholder="Email" style="margin-bottom: 10px; padding: 10px; border-radius: 5px; border: 1px solid #ccc;"><br>
+        <input type="password" name="password" placeholder="New Password (optional)" style="margin-bottom: 10px; padding: 10px; border-radius: 5px; border: 1px solid #ccc;"><br>
+        <input type="submit" value="Update Profile" style="padding: 10px; border-radius: 5px; border: none; background-color: #4CAF50; color: white; cursor: pointer;">
+    </form>
+    <form action="{{ url_for('delete_account') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete your account?');" style="margin-top: 20px; text-align: center;">
+        <button type="submit" style="padding: 10px; border-radius: 5px; border: none; background-color: #f44336; color: white; cursor: pointer;">Delete Account</button>
+    </form>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+    <a href="{{ url_for('index') }}" style="color: #4CAF50; text-decoration: none;">Back to Home</a>
+</div>
+
+{% endblock %}
