@@ -1,7 +1,7 @@
 from app import db
 from flask_login import UserMixin
 import bcrypt
-from datetime import datetime
+from datetime import datetime, timezone
 
 class Users(db.Model, UserMixin):
     """
@@ -54,9 +54,8 @@ class Group(db.Model):
     name = db.Column(db.String(100), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.uid'), nullable=False)
     contacts = db.relationship('Contacts', secondary=contact_groups, backref=db.backref('groups', lazy=True))
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+    created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
     def __init__(self, name, user_id):
         """
@@ -64,6 +63,8 @@ class Group(db.Model):
         """
         self.name = name
         self.user_id = user_id
+        self.created_at = datetime.now(timezone.utc)
+        self.updated_at = datetime.now(timezone.utc)
 
 
 class Contacts(db.Model):
@@ -77,16 +78,18 @@ class Contacts(db.Model):
     phone = db.Column(db.String(20), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.uid'), nullable=False) 
     user = db.relationship('Users', backref=db.backref('contacts', lazy=True))
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     reminders = db.relationship('Reminder', backref='contact', lazy=True)
 
-    #initialize new users
+    # Initialize new contacts
     def __init__(self, name, email, phone, user_id):
         self.name = name
-        self.email =email
+        self.email = email
         self.phone = phone
         self.user_id = user_id
+        self.created_at = datetime.now(timezone.utc)
+        self.updated_at = datetime.now(timezone.utc)
 
 
 class Reminder(db.Model):

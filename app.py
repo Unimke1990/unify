@@ -2,7 +2,7 @@ from flask import Flask, url_for, request, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from datetime import timedelta
 from flask import session
 
@@ -18,11 +18,11 @@ def create_app():
     app.config['SECRET_KEY'] = '1990_stylen9JA'
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
+    public_endpoints = ['index', 'login', 'signup']
     @app.before_request
     def refresh_session():
         session.modified = True
-        public_endpoints = ['index', 'login', 'signup']
-        if 'user_id' not in session and request.endpoint not in public_endpoints:
+        if not current_user.is_authenticated and request.endpoint not in public_endpoints:
             flash('Your session has expired. Please log in again.')
             return redirect(url_for('login'))
 

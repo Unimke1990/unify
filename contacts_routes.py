@@ -20,7 +20,7 @@ def contact_routes(app, db):
         Handle the addition of new contacts via GET and POST requests.
         """
         if request.method == 'GET':
-            groups = current_user.groups.all()
+            groups = current_user.groups
             return render_template('add_contact.html', groups=groups)
         elif request.method == 'POST':
             name = request.form.get('name').strip().lower()
@@ -104,7 +104,7 @@ def contact_routes(app, db):
             flash('Contact not found')
             return redirect(url_for('contacts'))
         if request.method == 'GET':
-            groups = current_user.groups.all()
+            groups = current_user.groups
             return render_template('edit_contact.html', contact=contact, groups=groups)
         elif request.method == 'POST':
             name = request.form.get('name').strip().lower()
@@ -138,13 +138,13 @@ def contact_routes(app, db):
             
              # Update contact's group assignment
             if new_group_name:
-                new_group = Group.query.filter_by(name=new_group_name).first()
+                new_group = Group.query.filter_by(name=new_group_name, user_id=current_user.uid).first()
                 if not new_group:
                     new_group = Group(name=new_group_name, user_id=current_user.uid)
                     db.session.add(new_group)
                     db.session.commit()
-                contact.groups.clear()
-                contact.groups.append(new_group)
+                if new_group not in contact.groups:
+                    contact.groups.append(new_group)
             
             contact.name = name
             contact.email = email

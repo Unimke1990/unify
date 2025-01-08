@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+{% block content %}
+
+<h2 style="text-align: center; color: #4CAF50; font-family: Arial, sans-serif;">Login</h2>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul style="list-style-type: none; padding: 0;">
+        {% for message in messages %}
+        <li style="color: red; font-family: Arial, sans-serif; text-align: center;">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endwith %}
+
+<form action="{{ url_for('login') }}" method="POST" style="max-width: 300px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <input type="text" name="username" placeholder="Username" required="required" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px;"><br>
+    <input type="password" name="password" placeholder="Password" required="required" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px;"><br>
+    <input type="submit" value="Login" style="width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+</form>
+
+{% endblock %}
