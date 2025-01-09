@@ -1,3 +1,4 @@
+import os
 from flask import Flask, url_for, request, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
