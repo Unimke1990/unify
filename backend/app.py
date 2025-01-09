@@ -28,7 +28,7 @@ def create_app():
             return redirect(url_for('login'))
 
     #load models
-    from models import Users, Contacts, Group, Reminder
+    from backend.models import Users, Contacts, Group, Reminder
 
     #setting configurations
     db.init_app(app)
@@ -78,8 +78,8 @@ def create_app():
     bcrypt = Bcrypt(app)
 
     #load routes
-    from user_routes import register_routes
-    from contacts_routes import contact_routes
+    from backend.user_routes import register_routes
+    from backend.contacts_routes import contact_routes
     register_routes(app, db, bcrypt)
     contact_routes(app, db)
 
