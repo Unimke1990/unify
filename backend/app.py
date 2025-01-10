@@ -15,7 +15,8 @@ def create_app():
     initializes and configures the flask application
     """
     app = Flask(__name__, template_folder='templates')
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://agim:1990@localhost/unifydb'
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://if0_38082154:hFCtyBoSapdPGW@sql309.infinityfree.com:3306/if0_38082154_unifydb'
     app.config['SECRET_KEY'] = '1990_stylen9JA'
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
