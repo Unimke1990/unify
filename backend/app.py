@@ -16,8 +16,8 @@ def create_app():
     """
     app = Flask(__name__, template_folder='templates')
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://if0_38082154:hFCtyBoSapdPGW@sql309.infinityfree.com:3306/if0_38082154_unifydb'
-    app.config['SECRET_KEY'] = '1990_stylen9JA'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql+psycopg2://agim:shGQPxb3H6Fz62MCE2MjzcAlKQG8qHJs@dpg-cu163252ng1s73e7afug-a.oregon-postgres.render.com/unifydb_i7m6')
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', '1990_stylen9JA')
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
     public_endpoints = ['index', 'login', 'signup']
