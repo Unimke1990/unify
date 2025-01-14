@@ -1,4 +1,5 @@
 import os
+from flask_mail import Mail
 from flask import Flask, url_for, request, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -9,6 +10,7 @@ from flask import session
 
 
 db = SQLAlchemy()
+mail = Mail()
 
 def create_app():
     """
@@ -20,6 +22,16 @@ def create_app():
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', '1990_stylen9JA')
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
+    #Flask email configuration for Gmail
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'agimagba1990@gmail.com')
+    app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'stylen9ja')
+    app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', 'agimagba1990@gmail.com')
+
+    mail.init_app(app)
+
     public_endpoints = ['index', 'login', 'signup']
     @app.before_request
     def refresh_session():
@@ -29,7 +41,7 @@ def create_app():
             return redirect(url_for('login'))
 
     #load models
-    from backend.models import Users, Contacts, Group, Reminder
+    from models import Users, Contacts, Group, Reminder
 
     #setting configurations
     db.init_app(app)
@@ -79,8 +91,8 @@ def create_app():
     bcrypt = Bcrypt(app)
 
     #load routes
-    from backend.user_routes import register_routes
-    from backend.contacts_routes import contact_routes
+    from user_routes import register_routes
+    from contacts_routes import contact_routes
     register_routes(app, db, bcrypt)
     contact_routes(app, db)
 
