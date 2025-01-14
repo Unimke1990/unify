@@ -1,4 +1,4 @@
-from backend.app import db
+from app import db
 from flask_login import UserMixin
 import bcrypt
 from datetime import datetime, timezone
@@ -13,6 +13,7 @@ class Users(db.Model, UserMixin):
     username = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(250), unique=True)
+    email_verified = db.Column(db.Boolean, default=False)
     groups = db.relationship('Group', backref='user', lazy=True)
 
     #initialize new users

@@ -92,9 +92,11 @@ def create_app():
 
     #load routes
     from user_routes import register_routes
+    from auth_routes import auth_bp
     from contacts_routes import contact_routes
     register_routes(app, db, bcrypt)
     contact_routes(app, db)
+    app.register_blueprint(auth_bp, url_prefix='/auth')
 
     migrate = Migrate(app, db)
 
