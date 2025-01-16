@@ -15,7 +15,7 @@
     {% endif %}
 {% endwith %}
 
-<form action="{{ url_for('signup') }}" method="POST" style="max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
+<form action="{{ url_for('auth.signup') }}" method="POST" style="max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
     <div style="margin-bottom: 15px;">
         <input type="text" name="name" placeholder="Name" style="width: 100%; padding: 10px; margin: 5px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px;">
     </div>

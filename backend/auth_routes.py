@@ -2,7 +2,7 @@ from flask import Blueprint, request, render_template, url_for, redirect, flash,
 from flask_login import login_user, logout_user
 from models import Users, db
 from utils import confirm_verification_token
-from email import send_verification_email
+from email_utils import send_verification_email
 from sqlalchemy.exc import IntegrityError
 import re
 

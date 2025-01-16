@@ -1,6 +1,6 @@
 from flask_mail import Message
 from flask import url_for
-from app import mail
+from extensions import mail
 from utils import generate_verification_token
 
 def send_verification_email(user_email):

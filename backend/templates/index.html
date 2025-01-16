@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <h1 style="color: #2c3e50; text-align: center; font-family: Arial, sans-serif;">Uniffy</h1>
+    <h1 style="color: #2c3e50; text-align: center; font-family: Arial, sans-serif;">Unify</h1>
     <p style="color: #34495e; text-align: center; font-family: Arial, sans-serif;">Care. Unite. Connect</p>
 
     {% if current_user.is_authenticated %}
@@ -16,8 +16,8 @@
     {% else %}
         <h3 style="color: #e67e22; text-align: center; font-family: Arial, sans-serif;">Hello, guest!</h3>
         <div style="text-align: center;">
-            <a href="{{ url_for('signup') }}" style="margin: 10px; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px;">Signup</a>
-            <a href="{{ url_for('login') }}" style="margin: 10px; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px;">Login</a>
+            <a href="{{ url_for('auth.signup') }}" style="margin: 10px; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px;">Sign Up</a>
+            <a href="{{ url_for('auth.login') }}" style="margin: 10px; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px;">Login</a>
         </div>
     {% endif %}
 

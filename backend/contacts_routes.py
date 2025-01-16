@@ -173,7 +173,5 @@ def contact_routes(app, db):
         db.session.delete(contact)
         db.session.commit()
         flash('Contact deleted successfully')
-        return redirect(url_for('contacts'))
-
-            
+        return redirect(url_for('contacts'))    
         
