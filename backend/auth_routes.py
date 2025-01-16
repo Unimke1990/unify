@@ -66,6 +66,25 @@ def signup():
         except Exception as e:
             flash(f'Error: {str(e)}')
             return redirect(url_for('auth.signup'))
+        
+
+@auth_bp.route('/verify/<token>', methods=['GET'])
+def verify_email(token):
+    try:
+        email = confirm_verification_token(token)
+    except:
+        flash('The verification link is invalid or has expired.', 'danger')
+        return redirect(url_for('auth.login'))
+
+    user = Users.query.filter_by(email=email).first_or_404()
+    if user.email_verified:
+        flash('Account already verified. Please login.', 'success')
+    else:
+        user.email_verified = True
+        db.session.commit()
+        flash('You have verified your account. Thanks!', 'success')
+    return redirect(url_for('auth.login'))
+
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -100,21 +119,3 @@ def login():
         else:
             flash('Invalid username or password')
             return redirect(url_for('auth.login'))
-
-
-@auth_bp.route('/verify/<token>', methods=['GET'])
-def verify_email(token):
-    try:
-        email = confirm_verification_token(token)
-    except:
-        flash('The verification link is invalid or has expired.', 'danger')
-        return redirect(url_for('auth.login'))
-
-    user = Users.query.filter_by(email=email).first_or_404()
-    if user.email_verified:
-        flash('Account already verified. Please login.', 'success')
-    else:
-        user.email_verified = True
-        db.session.commit()
-        flash('You have verified your account. Thanks!', 'success')
-    return redirect(url_for('auth.login'))

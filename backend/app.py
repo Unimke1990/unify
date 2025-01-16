@@ -23,14 +23,15 @@ def create_app():
 
     # Flask-Mail configuration for Gmail
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-    app.config['MAIL_PORT'] = 587
-    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USE_SSL'] = True
+    app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'agimagba1990@gmail.com')
     app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'mhea jfpl hzvd vtwn')
     app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', 'agimagba1990@gmail.com')
 
 
-    public_endpoints = ['index', 'auth.login', 'auth.signup']
+    public_endpoints = ['index', 'auth.login', 'auth.signup', 'auth.verify_email']
     @app.before_request
     def refresh_session():
         session.modified = True
