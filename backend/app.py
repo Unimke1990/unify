@@ -28,7 +28,7 @@ def create_app():
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'agimagba1990@gmail.com')
     app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'mhea jfpl hzvd vtwn')
-    app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', 'agimagba1990@gmail.com')
+    app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', 'Unify App <agimagba1990@gmail.com>')
 
 
     public_endpoints = ['index', 'auth.login', 'auth.signup', 'auth.verify_email']
