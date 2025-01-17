@@ -91,8 +91,11 @@ def create_app():
     from contacts_routes import contact_routes
     from user_routes import register_routes
     from auth_routes import auth_bp
+    from reminder_routes import reminder_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
     register_routes(app, db, bcrypt)
     contact_routes(app, db)
-
+    app.register_blueprint(reminder_bp, url_prefix='/reminders')
+    app.register_blueprint(contact_bp, url_prefix='/contacts')
+    
     return app

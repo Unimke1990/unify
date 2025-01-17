@@ -80,7 +80,8 @@ class Contacts(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.uid'), nullable=False) 
     user = db.relationship('Users', backref=db.backref('contacts', lazy=True))
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
-    updated_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now
+    (timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     reminders = db.relationship('Reminder', backref='contact', lazy=True)
 
     # Initialize new contacts
@@ -112,3 +113,21 @@ class Reminder(db.Model):
         self.due_date = due_date
         self.user_id = user_id
         self.contact_id = contact_id
+
+    class ContactsHistory(db.Model):
+        """
+        The ContactsHistory class represents the contacts_history table.
+        """
+        __tablename__ = 'contact_history'
+        id = db.Column(db.Integer, primary_key=True)
+        user_id = db.Column(db.Integer, db.ForeignKey('users.uid'), nullable=False)
+        contact_id = db.Column(db.Integer, db.ForeignKey('contacts.id'), nullable=False)
+        group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
+        last_contacted = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+
+        def __init__(self, user_id, contact_id, group_id):
+            self.user_id = user_id
+            self.contact_id = contact_id
+            self.group_id = group_id
+            self.last_contacted = datetime.now(timezone.utc)
+
