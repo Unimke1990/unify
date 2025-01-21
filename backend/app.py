@@ -7,6 +7,7 @@ from flask_login import LoginManager, current_user
 from flask_mail import Mail
 from datetime import timedelta
 from extensions import mail, login_manager, bcrypt, db
+from flask_session import Session
 
 
 def create_app():
@@ -20,6 +21,7 @@ def create_app():
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', '1990_stylen9JA')
     app.config['SECURITY_PASSWORD_SALT'] = os.getenv('SECURITY_PASSWORD_SALT', 'my_precious_two')
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+    app.config['SESSION_TYPE'] = 'filesystem'
 
     # Flask-Mail configuration for Gmail
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -30,6 +32,8 @@ def create_app():
     app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'mhea jfpl hzvd vtwn')
     app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', 'Unify App <agimagba1990@gmail.com>')
 
+    # Initialize session
+    Session(app)
 
     public_endpoints = ['index', 'auth.login', 'auth.signup', 'auth.verify_email']
     @app.before_request
@@ -85,17 +89,17 @@ def create_app():
             return redirect(url_for('auth.login'))
         
      #load models
-    from models import Users, Contacts, Group, Reminder
+    from models import Users, Contacts, Group, Reminder, ContactHistory
 
     # Register routes
     from contacts_routes import contact_routes
     from user_routes import register_routes
     from auth_routes import auth_bp
-    from reminder_routes import reminder_bp
+    from random_contacts import contact_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
     register_routes(app, db, bcrypt)
     contact_routes(app, db)
-    app.register_blueprint(reminder_bp, url_prefix='/reminders')
     app.register_blueprint(contact_bp, url_prefix='/contacts')
+
     
     return app
