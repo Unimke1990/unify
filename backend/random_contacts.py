@@ -50,9 +50,5 @@ def random_contact():
         db.session.add(contact_history)
         db.session.commit()
 
-        return jsonify({
-            'id': selected_contact.id,
-            'name': selected_contact.name,
-            'phone': selected_contact.phone,
-            'email': selected_contact.email
-        }), 200
+        groups = Group.query.filter_by(user_id=current_user.id).all()
+        return render_template('random_contact.html', groups=groups, selected_contact=selected_contact)

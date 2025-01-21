@@ -20,5 +20,13 @@
         <br><br>
         <button type="submit">Randomize Contact</button>
     </form>
+
+    <!-- Section to display the selected contact details -->
+    {% if selected_contact %}
+        <h2>Selected Contact</h2>
+        <p><strong>Name:</strong> {{ selected_contact.name }}</p>
+        <p><strong>Phone:</strong> {{ selected_contact.phone }}</p>
+        <p><strong>Email:</strong> {{ selected_contact.email }}</p>
+    {% endif %}
 </body>
 </html>
