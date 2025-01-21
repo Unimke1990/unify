@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Contact</title>
+</head>
+<body>
+    <h1>Random Contact</h1>
+    <form action="/contacts/random_contact" method="POST">
+        <label for="group_id">Select Group:</label>
+        <select name="group_id" id="group_id" required>
+            {% for group in groups %}
+                <option value="{{ group.id }}">{{ group.name }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="allow_repeat">Allow Repeat:</label>
+        <input type="checkbox" name="allow_repeat" id="allow_repeat">
+        <br><br>
+        <button type="submit">Randomize Contact</button>
+    </form>
+</body>
+</html>
