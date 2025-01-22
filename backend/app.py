@@ -7,7 +7,6 @@ from flask_login import LoginManager, current_user
 from flask_mail import Mail
 from datetime import timedelta
 from extensions import mail, login_manager, bcrypt, db
-from flask_session import Session
 
 
 def create_app():
@@ -32,8 +31,6 @@ def create_app():
     app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'mhea jfpl hzvd vtwn')
     app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', 'Unify App <agimagba1990@gmail.com>')
 
-    # Initialize session
-    Session(app)
 
     public_endpoints = ['index', 'auth.login', 'auth.signup', 'auth.verify_email']
     @app.before_request

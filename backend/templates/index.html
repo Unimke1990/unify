@@ -2,23 +2,73 @@
 
 {% block content %}
 
-    <h1 style="color: #2c3e50; text-align: center; font-family: Arial, sans-serif;">Unify</h1>
-    <p style="color: #34495e; text-align: center; font-family: Arial, sans-serif;">Care. Unite. Connect</p>
+    <style>
+        body {
+            background-color: #1a1d26;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #34495e;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 30px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+        .button.logout {
+            background-color: #e74c3c;
+        }
+        .button.logout:hover {
+            background-color: #c0392b;
+        }
+    </style>
 
-    {% if current_user.is_authenticated %}
-        <h3 style="color: #27ae60; text-align: center; font-family: Arial, sans-serif;">Hello {{ current_user.username }}, you are logged in to Unify.</h3>
-        <div style="text-align: center;">
-            <a href="{{ url_for('update_profile') }}" style="margin: 10px; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px;">Update Profile</a>
-            <a href="{{ url_for('add_contact') }}" style="margin: 10px; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px;">Add Contact</a>
-            <a href="{{ url_for('contacts') }}" style="margin: 10px; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px;">Contacts</a>
-            <a href="{{ url_for('logout') }}" style="margin: 10px; padding: 10px 20px; background-color: #e74c3c; color: white; text-decoration: none; border-radius: 5px;">Logout</a>
-        </div>
-    {% else %}
-        <h3 style="color: #e67e22; text-align: center; font-family: Arial, sans-serif;">Hello, guest!</h3>
-        <div style="text-align: center;">
-            <a href="{{ url_for('auth.signup') }}" style="margin: 10px; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px;">Sign Up</a>
-            <a href="{{ url_for('auth.login') }}" style="margin: 10px; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px;">Login</a>
-        </div>
-    {% endif %}
+    <div class="container">
+        <h1>Unify</h1>
+        <p>Care. Unite. Connect</p>
+
+        {% if current_user.is_authenticated %}
+            <h3>Hello {{ current_user.username }}, you are logged in to Unify.</h3>
+            <div>
+                <a href="{{ url_for('contacts.random_contact') }}" class="button">Reach Out</a>
+                <a href="{{ url_for('update_profile') }}" class="button">Update Profile</a>
+                <a href="{{ url_for('add_contact') }}" class="button">Add Contact</a>
+                <a href="{{ url_for('contacts') }}" class="button">My Contacts</a>
+                <a href="{{ url_for('logout') }}" class="button logout">Logout</a>
+            </div>
+        {% else %}
+            <h3>Hello, guest!</h3>
+            <div>
+                <a href="{{ url_for('auth.signup') }}" class="button">Sign Up</a>
+                <a href="{{ url_for('auth.login') }}" class="button">Login</a>
+            </div>
+        {% endif %}
+    </div>
 
 {% endblock %}

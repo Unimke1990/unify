@@ -1,29 +1,89 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 style="text-align: center; color: #4CAF50;">Add Contact</h1>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1b1c1c;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-top: 50px;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        .form-container input[type="text"], .form-container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .messages {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+        .messages li {
+            color: rgb(246, 15, 15);
+        }
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .links a {
+            margin-right: 10px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <h1>Add Contact</h1>
   
     {% with messages = get_flashed_messages() %}
         {% if messages %}
-        <ul style="list-style-type: none; padding: 0;">
+        <ul class="messages">
             {% for message in messages %}
-                <li style="color: rgb(246, 15, 15); text-align: center;">{{ message }}</li>
+                <li>{{ message }}</li>
             {% endfor %}
         </ul>
         {% endif %}
     {% endwith %}
 
-    <form action="{{ url_for('add_contact') }}" method="POST" style="max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-        <input type="text" name="name" placeholder="Name" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px;"><br>
-        <input type="text" name="phone" placeholder="Phone" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px;"><br>
-        <input type="text" name="email" placeholder="Email" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px;"><br>
-        <input type="text" name="group_name" placeholder="Group Name" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px;"><br>
-        <input type="submit" value="Add Contact" style="width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
-    </form>
+    <div class="form-container">
+        <form action="{{ url_for('add_contact') }}" method="POST">
+            <input type="text" name="name" placeholder="Name" required><br>
+            <input type="text" name="phone" placeholder="Phone" required><br>
+            <input type="text" name="email" placeholder="Email" required><br>
+            <input type="text" name="group_name" placeholder="Group Name"><br>
+            <input type="submit" value="Add Contact">
+        </form>
+    </div>
 
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="{{ url_for('contacts') }}" style="margin-right: 10px; color: #4CAF50; text-decoration: none;">View Contacts</a>
-        <a href="{{ url_for('index') }}" style="color: #4CAF50; text-decoration: none;">Back to Home</a>
+    <div class="links">
+        <a href="{{ url_for('contacts') }}">View Contacts</a>
+        <a href="{{ url_for('index') }}">Back to Home</a>
     </div>
 
 {% endblock %}
