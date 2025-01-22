@@ -51,4 +51,5 @@ def random_contact():
         db.session.commit()
 
         groups = Group.query.filter_by(user_id=current_user.uid).all()
-        return render_template('random_contact.html', groups=groups, selected_contact=selected_contact)
+        last_contacted_time = contact_history.last_contacted.strftime('%Y-%m-%d %H:%M:%S')
+        return render_template('random_contact.html', groups=groups, selected_contact=selected_contact, last_contacted=last_contacted_time)

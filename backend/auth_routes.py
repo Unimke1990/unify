@@ -113,6 +113,10 @@ def login():
             return redirect(url_for('auth.login'))
 
         if user and user.check_password(password):
+            if not user.email_verified:
+                flash('Please verify your email to login.')
+                return redirect(url_for('auth.login'))
+            
             login_user(user)
             session.permanent = True
             return redirect(url_for('index'))
