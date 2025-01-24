@@ -1,23 +1,31 @@
 from datetime import datetime
 from flask import current_app
-from models import Reminder, db
+from models import Reminder
 from flask_mail import Message
-from extensions import mail
+from extensions import mail, db
 
-#send email reminder
+# Global variable to store the Flask application instance
+app = None
+
+# Function to set the global app variable
+def set_app(application):
+    global app
+    app = application
+
+# Send email reminder
 def send_reminder_email(reminder):
     msg = Message(subject=f"Reminder: {reminder.title}",
                   body=f"Reminder: {reminder.title}\n\n{reminder.description}\n\nDue: {reminder.due_date}",
                   recipients=[reminder.user.email])
     mail.send(msg)
 
-#check for reminders
+# Check for reminders
 def check_reminders():
-    with current_app.app_context():
+    global app
+    with app.app_context():
         now = datetime.utcnow()
         reminders = Reminder.query.filter(Reminder.due_date <= now).all()
         for reminder in reminders:
             send_reminder_email(reminder)
             db.session.delete(reminder)
         db.session.commit()
-

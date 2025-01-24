@@ -8,7 +8,7 @@ from flask_mail import Mail
 from datetime import timedelta
 from extensions import mail, login_manager, bcrypt, db
 from scheduler import create_scheduler
-from reminder_tasks import check_reminders
+from reminder_tasks import check_reminders, set_app
 
 
 def create_app():
@@ -101,6 +101,9 @@ def create_app():
     contact_routes(app, db)
     app.register_blueprint(contact_bp, url_prefix='/contacts')
     app.register_blueprint(reminder_bp, url_prefix='/reminders')
+
+    # Set the global application instance in reminder_tasks.py
+    set_app(app)
 
      # Initialize scheduler and add job
     scheduler = create_scheduler(app)
