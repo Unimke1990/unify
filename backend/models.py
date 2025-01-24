@@ -107,7 +107,7 @@ class Reminder(db.Model):
     user = db.relationship('Users', backref=db.backref('reminders', lazy=True), foreign_keys=[user_id])
     contact_id = db.Column(db.Integer, db.ForeignKey('contacts.id'), nullable=True)
     recurrence_type = db.Column(db.String(50), nullable=True)
-    recurrence_frequency = db.Colum(db.Integer, nullable=True)
+    recurrence_frequency = db.Column(db.Integer, nullable=True)
     recurrence_interval = db.Column(db.Integer, nullable=True) 
 
     def __init__(self, title, description, due_date, user_id, contact_id=None, recurrence_type=None, recurrence_frequency=None, recurrence_interval=None):

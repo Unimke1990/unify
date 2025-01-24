@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Reminder</title>
+</head>
+<body>
+    <h1>Edit Reminder</h1>
+    <form action="{{ url_for('reminders.edit_reminder', id=reminder.id) }}" method="POST">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" value="{{ reminder.title }}" required><br>
+        <label for="description">Description:</label>
+        <textarea name="description" id="description" required>{{ reminder.description }}</textarea><br>
+        <label for="due_date">Due Date:</label>
+        <input type="datetime-local" name="due_date" id="due_date" value="{{ reminder.due_date.strftime('%Y-%m-%dT%H:%M:%S') }}" required><br>
+        <label for="recurrence_type">Recurrence Type:</label>
+        <select name="recurrence_type" id="recurrence_type">
+            <option value="" {% if reminder.recurrence_type == '' %}selected{% endif %}>None</option>
+            <option value="daily" {% if reminder.recurrence_type == 'daily' %}selected{% endif %}>Daily</option>
+            <option value="weekly" {% if reminder.recurrence_type == 'weekly' %}selected{% endif %}>Weekly</option>
+            <option value="monthly" {% if reminder.recurrence_type == 'monthly' %}selected{% endif %}>Monthly</option>
+        </select><br>
+        <label for="recurrence_frequency">Recurrence Frequency:</label>
+        <input type="number" name="recurrence_frequency" id="recurrence_frequency" value="{{ reminder.recurrence_frequency }}"><br>
+        <label for="recurrence_interval">Recurrence Interval:</label>
+        <input type="number" name="recurrence_interval" id="recurrence_interval" value="{{ reminder.recurrence_interval }}"><br>
+        <button type="submit">Update Reminder</button>
+    </form>
+</body>
+</html>

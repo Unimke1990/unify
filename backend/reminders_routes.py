@@ -1,10 +1,7 @@
-from app import db
-from datetime import datetime, timezone
-from flask_login import login_user, logout_user, login_required, current_user
+from datetime import datetime
+from flask_login import login_required, current_user
 from flask import Blueprint, request, render_template, url_for, redirect, flash
-from models import Users, Group, Contacts, Reminder
-from sqlalchemy.exc import IntegrityError
-from flask_bcrypt import Bcrypt
+from models import Reminder, db
 
 
 reminder_bp = Blueprint('reminders', __name__)
@@ -33,7 +30,7 @@ def create_reminder():
             due_date=datetime.strptime(due_date, '%Y-%m-%d %H:%M:%S'),
             user_id=current_user.uid,
             recurrence_type=recurrence_type,
-            recurrence_frequency=recurrence_frequency,
+            recurrence_frequency=int(recurrence_frequency) if recurrence_frequency else None,
             recurrence_interval=int(recurrence_interval) if recurrence_interval else None
         )
         db.session.add(reminder)
@@ -61,12 +58,12 @@ def edit_reminder(id):
         recurrence_interval = request.form.get('recurrence_interval')
              
         # Update existing reminder object    
-        title=title
-        description=description
-        due_date=datetime.strptime(due_date, '%Y-%m-%d %H:%M:%S')
-        recurrence_type=recurrence_type
-        recurrence_frequency=recurrence_frequency
-        recurrence_interval=int(recurrence_interval) if recurrence_interval else None
+        reminder.title = title
+        reminder.description = description
+        reminder.due_date = datetime.strptime(due_date, '%Y-%m-%d %H:%M:%S')
+        reminder.recurrence_type = recurrence_type
+        reminder.recurrence_frequency = int(recurrence_frequency) if recurrence_frequency else None
+        reminder.recurrence_interval = int(recurrence_interval) if recurrence_interval else None
         
         db.session.commit()
         flash('Reminder edited and updated successfully.')
