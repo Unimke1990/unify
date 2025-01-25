@@ -4,22 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Reminders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(2, 12, 27);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #00070c;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+        }
+        a.button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        a.button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #f9f9f9;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        li strong {
+            font-size: 1.2em;
+        }
+        li a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        li a:hover {
+            text-decoration: underline;
+        }
+        form {
+            display: inline;
+        }
+        button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c82333;
+        }
+    </style>
 </head>
 <body>
-    <h1>Your Reminders</h1>
-    <a href="{{ url_for('reminders.create_reminder') }}">Create New Reminder</a>
-    <ul>
-        {% for reminder in reminders %}
-        <li>
-            <strong>{{ reminder.title }}</strong><br>
-            {{ reminder.description }}<br>
-            Due: {{ reminder.due_date }}<br>
-            <a href="{{ url_for('reminders.edit_reminder', id=reminder.id) }}">Edit</a>
-            <form action="{{ url_for('reminders.delete_reminder', id=reminder.id) }}" method="POST" style="display:inline;">
-                <button type="submit">Delete</button>
-            </form>
-        </li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h1>Your Reminders</h1>
+        <a href="{{ url_for('reminders.create_reminder') }}" class="button">Create New Reminder</a>
+        <ul>
+            {% for reminder in reminders %}
+            <li>
+                <strong>{{ reminder.title }}</strong><br>
+                {{ reminder.description }}<br>
+                Due: {{ reminder.due_date }}<br>
+                <a href="{{ url_for('reminders.edit_reminder', id=reminder.id) }}">Edit</a>
+                <form action="{{ url_for('reminders.delete_reminder', id=reminder.id) }}" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+            {% else %}
+            <li>No reminders found.</li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('index') }}" class="button">Back Home</a>
+    </div>
 </body>
 </html>

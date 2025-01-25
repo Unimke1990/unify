@@ -1,8 +1,8 @@
 from datetime import datetime
+import pytz
 from flask_login import login_required, current_user
 from flask import Blueprint, request, render_template, url_for, redirect, flash
 from models import Reminder, db
-
 
 reminder_bp = Blueprint('reminders', __name__)
 
@@ -11,7 +11,6 @@ reminder_bp = Blueprint('reminders', __name__)
 def view_reminders():
     reminders = Reminder.query.filter_by(user_id=current_user.uid).all()
     return render_template('view_reminders.html', reminders=reminders)
-
 
 @reminder_bp.route('/reminders/create', methods=['GET', 'POST'])
 @login_required
@@ -24,10 +23,15 @@ def create_reminder():
         recurrence_frequency = request.form.get('recurrence_frequency')
         recurrence_interval = request.form.get('recurrence_interval')
 
+        # Convert due_date to UTC
+        local_tz = pytz.timezone('Africa/Lagos')
+        local_due_date = local_tz.localize(datetime.strptime(due_date, '%Y-%m-%dT%H:%M'))
+        utc_due_date = local_due_date.astimezone(pytz.utc)
+
         reminder = Reminder(
             title=title,
             description=description,
-            due_date=datetime.strptime(due_date, '%Y-%m-%d %H:%M:%S'),
+            due_date=utc_due_date,
             user_id=current_user.uid,
             recurrence_type=recurrence_type,
             recurrence_frequency=int(recurrence_frequency) if recurrence_frequency else None,
@@ -57,10 +61,15 @@ def edit_reminder(id):
         recurrence_frequency = request.form.get('recurrence_frequency')
         recurrence_interval = request.form.get('recurrence_interval')
              
+        # Convert due_date to UTC
+        local_tz = pytz.timezone('Africa/Lagos')
+        local_due_date = local_tz.localize(datetime.strptime(due_date, '%Y-%m-%dT%H:%M'))
+        utc_due_date = local_due_date.astimezone(pytz.utc)
+
         # Update existing reminder object    
         reminder.title = title
         reminder.description = description
-        reminder.due_date = datetime.strptime(due_date, '%Y-%m-%d %H:%M:%S')
+        reminder.due_date = utc_due_date
         reminder.recurrence_type = recurrence_type
         reminder.recurrence_frequency = int(recurrence_frequency) if recurrence_frequency else None
         reminder.recurrence_interval = int(recurrence_interval) if recurrence_interval else None

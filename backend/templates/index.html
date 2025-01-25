@@ -60,7 +60,10 @@
                 <a href="{{ url_for('update_profile') }}" class="button">Update Profile</a>
                 <a href="{{ url_for('add_contact') }}" class="button">Add Contact</a>
                 <a href="{{ url_for('contacts') }}" class="button">My Contacts</a>
+                <a href="{{ url_for('reminders.create_reminder') }}" class="button">Create Reminder</a>
+                <a href="{{ url_for('reminders.view_reminders') }}" class="button">View Reminders</a>
                 <a href="{{ url_for('logout') }}" class="button logout">Logout</a>
+                
             </div>
         {% else %}
             <h3>Hello, guest!</h3>
